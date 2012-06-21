@@ -20,180 +20,167 @@
   
   [% IF error == "testopia-permission-denied" %]
     [% title = "Insufficient Permissions" %]
-    You are not authorized to view [% object.type FILTER html %]&nbsp;[% object.id FILTER html %]
+    你没有权限访问 [% object.type FILTER html %]&nbsp;[% object.id FILTER html %]
   [% ELSIF error == "testopia-read-only" %]
     [% title = "Insufficient Permissions" %]
-    You are not authorized to edit [% object.type FILTER html %]&nbsp;[% object.id FILTER html %]
+    你没有权限编辑 [% object.type FILTER html %]&nbsp;[% object.id FILTER html %]
     [% IF object.type == 'caserun' %]
-    Only test runs in the RUNNING state may be updated. Otherwise, 
+    只有在 RUNNING 状态的runs才可以更新。或者，
     [% END %]
-    Contact the plan administrator to grant rights to update these [% object.type FILTER html %]s
+    联系plan管理员，授权可更新这些 [% object.type FILTER html %]s
   [% ELSIF error == "testopia-no-delete" %]
     [% title = "Insufficient Permissions" %]
-    You are not authorized to delete [% object.type FILTER html %]&nbsp;[% object.id FILTER html %]
+    你没有权限删除 [% object.type FILTER html %]&nbsp;[% object.id FILTER html %]
     [% IF user.in_group('admin') %]
-    If you are the administrator, you can check that your installation
-    allows deletion of Testopia objects in the <a href="editparams.cgi">paramaters </a>
-    and then add delete rights to your plan on the "Permissions" tab.
+    如果你是管理员，请检查你的安装，检查 <a href="editparams.cgi">paramaters </a> 以
+    确认是否可以删除Testopia数据，然后在plan的 "Permissions" 标签页，加入删除权限。
     [% END %]
   [% ELSIF error == "testopia-create-denied" %]
     [% title = "Cannot Create Object" %]
-    You do not have sufficient rights to create new [% object FILTER html %]s 
-      [% IF plan %] for plan [% plan.id %][% END %].
+    [% IF plan %] 在 plan [% plan.id %] 中，[% END %]你没有权限创建 [% object FILTER html %]。
   [% ELSIF error == "testopia-missing-parameter" %]
     [% title = "Missing Parameter" %]
-    Missing required parameter [% param FILTER html %]
+    没有参数[% param FILTER html %]
   [% ELSIF error == "testopia-non-zero-case-count" %]
     [% title = "Category Has Test Cases" %]
-    You have attempted to delete a category that still has test cases 
-    associated with it.
-    Please move the test cases to another category first.
+    如果一个category仍然有测试例关联，你不能删掉它。
+    请先移动测试例给其他category。
   [% ELSIF error == "testopia-non-zero-run-count" %]
     [% title = "$object Has Test Runs" %]
-    You have attempted to delete a [% object FILTER html %] that has test runs 
-    associated with it.
+    你试图删除一个仍有run关联的 [% object FILTER html %] 。
   [% ELSIF error == "testopia-non-zero-case-run-count" %]
     [% title = "Build Has Case Runs" %]
-    You have attempted to delete a build that still has test case runs 
-    associated with it. This is historical data and should not be removed.
+    你试图删除一个有case、run关联的build。这是历史数据，不能被删除。
   [% ELSIF error == "testopia-invalid-test-id-or-alias" %]
     [% title = "Invalid ID or Alias" %]
-    The test case you entered does not exist.
+    不存在这个case。
   [% ELSIF error == "invalid-test-id-non-existent" %]
     [% title = "Invalid ID" %]
     [% IF type == 'case_run' %]
-      The specified case-run does not exist.
+      不存在这个run。
     [% ELSE %]
-      Test [% type FILTER html %]&nbsp;[% id FILTER html %] does not exist.
+      不存在 [% type FILTER html %]&nbsp;[% id FILTER html %] 。
     [% END %]
   [% ELSIF error == "testopia-name-not-unique" %]
     [% title = "Name Must be Unique" %]
-    The name you chose, [% name FILTER html %], for this 
-    [% object FILTER html %] must be unique. Another [% object FILTER html %]
-    of the same name already exists. Please choose a different one.
+    你为 [% object FILTER html %] 选择的名字 [% name FILTER html %] 不唯一。
+    [% object FILTER html %] 使用了相同的名字。请另选一个。
   [% ELSIF error == 'testopia-create-category' %]
     [% title = "No Categories Defined" %]
-    No categories have been created for this product yet.
+    这个产品还没有定义 categories 。
     [% IF plan %]
-    You can create categories <a href="tr_categories.cgi?product_id=[% plan.product.id FILTER none %]">
-    here</a>.
+    你可以 <a href="tr_categories.cgi?product_id=[% plan.product.id FILTER none %]"> 创建 categories 
+    </a>。
     [% END %]
   [% ELSIF error == "testopia-create-build" %]
     [% title = "No Builds Defined" %]
-    No builds have been created for this product yet.
+    这个产品还没有定义 builds 。
     [% IF plan %]
-    You can create builds <a href="tr_builds.cgi?product_id=[% plan.product.id FILTER none %]">
-    here</a>.
+    你可以 <a href="tr_builds.cgi?product_id=[% plan.product.id FILTER none %]"> 创建 builds </a> 。
     [% END %]
   [% ELSIF error == "testopia-create-environment" %]
     [% title = "No Environments Defined" %]
-    No environments have been created yet.
-    You can create environments <a href="tr_new_environment.cgi">here</a>.
+    还没有定义 environments。
+    你可以 <a href="tr_new_environment.cgi">创建 environments</a>。
   [% ELSIF error == "testopia-missing-required-field" %]
     [% title = "Missing Required Field" %]
-    It seems there was either no value entered for [% field FILTER none %], or the value entered
-    did not match any known values.
+    可能 [% field FILTER none %] 并未输入数值，或者内容不符合要求。
   [% ELSIF error == "testopia-missing-plans-list" %]
     [% title = "Plan list missing" %]
-    Somehow the list of plans associated with the test case to be cloned is missing. 
-    Please try again.
+    你想kelong的与这个case关联的plan似乎并不存在。请重试。
   [% ELSIF error == "testopia-unkown-object" %]
     [% title = "Unkown Object" %]
-    Attempted to attach tags to something other than a Test Plan, Test Case or Test Run.
+    只能给Test Plan, Test Case or Test Run附加tag。
   [% ELSIF error == "testopia-element-in-use" %]
     [% title = "Element in Use" %]
-    The selected element is being used in one or more environments. 
-    Please [% IF NOT delete %]create a new one or [% END %]
-    remove it from existing environments before performing this operation.
+    选中的element已经在一个或多个environments使用了。
+    请先 [% IF NOT delete %] 创建一个新的，或[% END %]
+    从environments中删掉这个element。
   [% ELSIF error == "testopia-invalid-char" %]
     [% title = "Invalid Character" %]
-    Valid names for values cannot contain '|' characters.
+    数值中包含不合法字符 '|' 。
   [% ELSIF error == "testiopia-alias-exists" %]
     [% title = "Alias Unavailable" %]
-    The alias '[% alias FILTER html %]' is already in use by another test case, please
-    select another one.
+    这个 alias '[% alias FILTER html %]' 已由其他case使用，请另选一个。
   [% ELSIF error == "testiopia-invalid-data" %]
     [% title = "Invalid Option Selected" %]
-    The field [% field FILTER none %] has and invalid value of [% value FILTER html %]
+    [% value FILTER html %] 不是 域 [% field FILTER none %] 的合法内容。
   [% ELSIF error == "testopia-none-selected" %]
     [% title = "Nothing Selected" %]
-    You did not select any [% object FILTER none %]s to change.
+    你没有选中 [% object FILTER none %] 。
   [% ELSIF error == "testopia-query-too-large" %]
-    This query returns more than [% limit FILTER none %] rows. <br>
-    Please do one of the following:
+    这次查询返回 [% limit FILTER none %] 行数据。 <br>
+    请选择:
     <ol>
-      <li>Try to narrow your search.</li>
-      <li>Try using the pagesize and page URL paramaters to limit your results.</li>
-      <li>Use the XML-RPC Interface.</li>
+      <li>缩小你搜索范围</li>
+      <li>尝试用参数 pagesize 和 page URL 限制你的搜索结果</li>
+      <li>使用XML-RPC接口。</li>
     </ol>
   [% ELSIF error == "missing-plans-list" %]
     [% title = "No plans selected" %]
-    You did not select any plans to copy or link this case to.
+    你没有选中任何一个plan。
   [% ELSIF error == "testopia-tester-already-on-list" %]
     [% title = "Selected user is already on the list" %]
-    The user [% login FILTER html %] is already a member of the ACL for this plan.
+    用户 [% login FILTER html %] 已经在这个plan的ACL中。
   [% ELSIF error == "testopia-plan-acl-denied" %]
     [% title = "Plan Administrator Privileges Required" %]
-    You must be an administrator of this test plan to modify the access control list. 
+    你需要是这个plan管理员才可以修改他的访问控制列表。
   [% ELSIF error == "testopia-no-admins" %]
     [% title = "Plan Must Have at Least One Admin" %]
-    There do not seem to be any admins selected. You must select at least one admin for this test plan.
+    你必须至少选择一个管理员。
   [% ELSIF error == "testopia-format-error" %]
     [% title = "Field format error" %]
-    [% field %] is not formatted correctly.
+    [% field %] 格式不正确。
   [% ELSIF error == "plan-has-children" %]
     [% title = "Plan has Children" %]
-    This test plan has children and so it is not possible to change the product.
-    You may wish to clone the plan instead.
+    这个plan有派生，所以不能修改产品。你应该clone之后再修改。
   [% ELSIF error == "testopia-no-status" %]
     [% title = "Permission Denied" %]
-    You must either be the run manager or a plan administrator to change 
+    你需要是run 管理员或者plan 管理员才能修改
     [% IF field == 'status' %]
-      the status of a run.
+      run的状态。
     [% ELSIF field == 'manager' %]
-      the run manager
+      run的管理员。
     [% ELSIF field == 'target' %]
-      the target pass or completion rates
+      通过率或完成率。
     [% END %]
   [% ELSIF error == "testopia-update-failed" %]
     [% title = "One or more of your test $object failed to update" %]
-    Update of one or more of your [% object %]s failed. The most likely cause is that you don't have permissions
-    to update them. 
+    更新 [% object %] 失败。可能的原因是你没有权限。
     [% IF object == 'case-run' %]
-      If the case is in the RUNNING state, only the assignee may update it. Otherwise,
+      如果case在RUNNING，只有 assignee 可以更新。否则，
     [% END %]
-    Contact the plan administrator to grant rights to update these [% object %]s.
+    请联系plan管理员来授权更新 [% object %] 。
     <p>
-    The id's of those that failed are: [% list FILTER none %]
+    失败的id是： [% list FILTER none %]
     </p>
   [% ELSIF error == "testopia-delete-failed" %]
     [% title = "One or more of your test $object failed to be deleted" %]
-    Deleting one or more of your [% object %]s failed. The most likely cause is that you don't have permissions
-    to delete them. Your administrator must also have the "allow-test-deletion" set to "On".  
+    删除 [% object %] 失败。可能的原因是你没有权限。
+    你的管理员需要设置 "allow-test-deletion" 为 "On"。
   [% ELSIF error == "testopia-unknown-tag" %]
-    The tag "[% name FILTER html %]" does not exist.
+    Tag "[% name FILTER html %]" 不存在。
   [% ELSIF error == "testopia-regexp-too-inclusive" %]
-    You are attempting to allow access to your test plan to more people than the limit set by your administrator allows.
-    Please contatct your administrator.
+    你试图允许其他人访问你的plan，这超出了你的权限。
+    请联系管理员。
   [% ELSIF error == "testopia-unknown-tab" %]
-    I don't know what a [% tab FILTER html %] is.
+    我不知道 [% tab FILTER html %] 是什么。
   [% ELSIF error == 'invalid_import_type' %]
-    Invalid file type. Only CSV and XML files can be imported (.csv or .xml extension). You uploaded a [% type FILTER html %] file.
+    无效的文件类型。只有 CSV 和 XML 文件可以导入(扩展名为.csv 或 .xml)。你上传了一个 [% type FILTER html %] 文件。
   [% ELSIF error == 'import_repeat' %]
-    It appears you tried to import the same file twice.
+    看起来你试图再次导入同一个文件。
   [% ELSIF error == 'csv_parse_failure' %]
-    There was an error parsing the input. Please verify that the CSV is valid.
-    The Error was on row [% row FILTER none %]
+    解析失败。请验证CSV文件有效。
+    出错行： [% row FILTER none %]
   [% ELSIF error == "testopia_component_attached" %]
-    The component you are attemting to add is already attached to this case.
+    你试图加入的 component 已在该 case 中存在。
   [% ELSIF error == "testopia-no-action" %]
-    I give up. What were you trying to do?
-    Either there was no action specified, or I didn't recognize it.
+    你确认想做什么操作？
   [% ELSIF error == "invalid_target" %]
-    Target Completion and Pass rates must be a number between 0 and 100 inclusive.
+    期望的完成率、通过率数值范围是 0 到 100。
   [% ELSIF error == "import_parse_error" %]
-    Parsing [% type FILTER html %] Failed!<br/>
-    The error returned was:
+    解析 [% type FILTER html %] 失败！<br/>
+    错误是：
     <pre>[% msg FILTER html %]</pre>
   [% END %]
   

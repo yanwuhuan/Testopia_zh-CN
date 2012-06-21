@@ -20,9 +20,8 @@
 
   [% IF error == "testopia_undefined_field" %]
     [% title = "Missing Field in test_fielddefs" %]
-    The [% fieldname %] field was not found for the [% table %] table while logging activity.
+    记录动作时，在表 [% table %] 中未发现域 [% fieldname %] 。
   [% ELSIF error == "testopia-missing-attachment-key" %]
     [% title = "Missing Key" %]
-    You have requested to save an attachment, but I didn't see which test plan 
-    or test case you had in mind to store it with.
+    你熬保存一个附件，但没有指定关联的测试计划或测试例。
   [% END %]

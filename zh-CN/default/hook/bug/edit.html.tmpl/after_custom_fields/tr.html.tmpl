@@ -4,7 +4,7 @@
 <ul>
 [% IF test_case_count > 0 %]
     <li><a href="tr_list_cases.cgi?bug_id=[% bug.bug_id %]&current_tab=case">
-    View [% terms.Bug %] Test Cases ([% test_case_count %]
+    查看 [% terms.Bug %] Test Cases ([% test_case_count %]
     [% IF test_case_count > 1 %]
         cases)
     [% ELSE %]
@@ -12,5 +12,5 @@
     [% END %]
     </a></li>
 [% END %]
-    <li><a href="tr_new_case.cgi?product=[% bug.product FILTER url_quote %]&bug=[% bug.bug_id %]">Create test case</a></li>
+    <li><a href="tr_new_case.cgi?product=[% bug.product FILTER url_quote %]&bug=[% bug.bug_id %]">创建 test case</a></li>
 </ul>
